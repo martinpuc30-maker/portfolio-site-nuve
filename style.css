@@ -1,0 +1,90 @@
+:root {
+  --ink: #030201;
+  --gold: #ffd447;
+  --sun: #ffb813;
+  --cream: #fff2ad;
+  --orange: #e87916;
+  --leaf: #477738;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; overflow: hidden; background: var(--ink); }
+body { color: var(--cream); font-family: "Trebuchet MS", "Segoe UI", sans-serif; }
+button { font: inherit; }
+
+.experience { min-height: 100svh; position: relative; isolation: isolate; overflow: hidden; background: #030201; cursor: pointer; }
+.stars, .aurora, .touch-ripples { inset: 0; position: absolute; pointer-events: none; }
+.stars { z-index: -3; opacity: 0; transition: opacity 2s ease; }
+.aurora { z-index: -2; opacity: 0; background: radial-gradient(ellipse at 50% 45%, rgba(164, 87, 18, .2), transparent 38%), radial-gradient(ellipse at 15% 105%, rgba(125, 54, 15, .13), transparent 40%); transition: opacity 2.5s ease; }
+.opening { min-height: 100svh; display: grid; place-items: center; align-content: center; position: relative; z-index: 2; transition: opacity 1.2s ease, transform 1.2s cubic-bezier(.2,.75,.2,1); }
+.intro-flare { position: absolute; width: 19rem; height: 19rem; border-radius: 50%; background: #ca770f; filter: blur(100px); opacity: .12; animation: breathe 4s ease-in-out infinite; }
+.sunflower { width: clamp(210px, 53vw, 320px); position: relative; filter: drop-shadow(0 0 18px rgba(255, 192, 30, .6)) drop-shadow(0 0 45px rgba(212, 130, 12, .28)); }
+.sunflower svg { display: block; width: 100%; overflow: visible; }
+.petals { transform-origin: 160px 160px; animation: flower-breathe 6s ease-in-out infinite; }
+.petal { fill: url(#petalIntro); stroke: rgba(255,235,119,.3); stroke-width: 1; transform-box: fill-box; transform-origin: center; }
+.seed { fill: url(#seedIntro); stroke: #a96c24; stroke-width: 2; }
+.seed-highlight { fill: #ffc943; opacity: .65; filter: blur(2px); }
+.stem { stroke: url(#stemIntro); stroke-width: 13; stroke-linecap: round; fill: none; }
+.leaf { fill: #477738; stroke: #7ba83f; stroke-width: 1.5; }
+.flower-shadow { fill: #d98b08; opacity: .16; filter: blur(5px); }
+.tap-prompt { margin: 13px 0 0; font-size: 1rem; letter-spacing: .02em; animation: prompt-glow 2.8s ease-in-out infinite; }
+.tap-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin: 0 10px 2px 0; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+.tap-hint { margin: 10px 0 0; color: rgba(255,242,173,.47); font-family: "Trebuchet MS", "Segoe UI", sans-serif; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; }
+
+.universe { min-height: 100svh; opacity: 0; transform: scale(1.03); transition: opacity 1.8s ease .4s, transform 2s cubic-bezier(.2,.75,.2,1) .4s; position: relative; }
+.title-lockup { position: absolute; top: max(7vh, 40px); width: 100%; text-align: center; z-index: 4; opacity: 0; transform: translateY(-15px); transition: opacity 1s ease 1s, transform 1s ease 1s; }
+.eyebrow { color: var(--gold); font: 500 .66rem "Trebuchet MS", "Segoe UI", sans-serif; letter-spacing: .3em; margin: 0 0 13px; text-transform: uppercase; }
+h1 { color: var(--gold); font: 500 clamp(1.75rem, 7.5vw, 3.4rem)/1.02 "Trebuchet MS", "Segoe UI", sans-serif; letter-spacing: -.045em; margin: 0; text-shadow: 0 0 16px rgba(255,193,32,.7), 0 0 42px rgba(244,139,15,.35); }
+h1 em { color: var(--cream); font-style: normal; }
+h1 span { font-size: .72em; }
+.orbit-stage { position: absolute; width: min(88vw, 500px); aspect-ratio: 1; left: 50%; top: 52%; transform: translate(-50%,-50%); display: grid; place-items: center; }
+.orbit-halo { position: absolute; width: 70%; aspect-ratio: 1; border-radius: 50%; background: rgba(238,141,23,.2); filter: blur(65px); animation: halo 6s ease-in-out infinite; }
+.planet { width: 39%; aspect-ratio: 1; border-radius: 50%; z-index: 1; position: relative; overflow: hidden; background: radial-gradient(circle at 33% 27%, #fff0a6 0 4%, #ffc33d 13%, #eb7c18 51%, #7d280d 100%); box-shadow: inset -18px -20px 30px rgba(70,10,0,.53), inset 10px 9px 16px rgba(255,247,164,.54), 0 0 22px #ffb51d, 0 0 75px rgba(238,128,18,.7); animation: planet-float 8s ease-in-out infinite; }
+.planet-light { position: absolute; inset: -15%; border-radius: 50%; background: linear-gradient(125deg, transparent 25%, rgba(255,245,150,.28) 45%, transparent 60%); animation: planet-shimmer 10s linear infinite; }
+.planet-texture { position: absolute; inset: 12% -6%; border-radius: 50%; opacity: .28; background: repeating-radial-gradient(ellipse at 80% 50%, transparent 0 12px, #9b360d 13px 16px, transparent 17px 31px); transform: rotate(-24deg); mix-blend-mode: multiply; }
+.ring { position: absolute; width: 89%; height: 25%; border: 4px solid #ffd45c; border-radius: 50%; transform: rotate(-18deg); box-shadow: 0 0 7px #fff1a2, 0 0 19px #f5a219; z-index: 2; }
+.ring--back { clip-path: inset(50% 0 0); opacity: .72; }
+.ring--front { clip-path: inset(0 0 50%); opacity: .9; }
+.hero-flower { position: absolute; width: 26%; height: 38%; left: 37%; top: 16%; z-index: 3; transform-origin: 50% 100%; animation: hero-sway 7s ease-in-out infinite; }
+.hero-flower::before { content: ""; position: absolute; width: 100%; height: 72%; border-radius: 50%; background: repeating-conic-gradient(from 1deg, #ffe47a 0deg 10deg, #f4a90d 11deg 20deg); clip-path: polygon(50% 0, 62% 25%, 100% 16%, 76% 48%, 100% 75%, 62% 68%, 50% 100%, 38% 68%, 0 75%, 24% 48%, 0 16%, 38% 25%); filter: drop-shadow(0 0 8px #ffc629); }
+.hero-flower::after { content: ""; position: absolute; width: 42%; aspect-ratio: 1; left: 29%; top: 28%; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #8a5a21, #2b160b 65%); box-shadow: 0 0 8px #fbbd2f; }
+.orbit-sparks::before, .orbit-sparks::after { content: ""; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--cream); box-shadow: 0 0 12px 3px #ffd34e; animation: spark-orbit 8s linear infinite; }
+.orbit-sparks::after { animation-delay: -4s; animation-duration: 11s; width: 3px; height: 3px; }
+.wish-field { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.wish { position: absolute; max-width: 150px; color: rgba(255,230,127,.72); font: 400 clamp(.68rem, 2.6vw, .84rem)/1.2 "Trebuchet MS", "Segoe UI", sans-serif; text-align: center; text-shadow: 0 0 12px rgba(245,165,22,.8); opacity: 0; animation: wish-in 9s ease-in-out forwards; }
+.wish.is-blur { filter: blur(1.5px); opacity: .5; }
+.footer-note { position: absolute; bottom: max(4vh, 24px); width: 100%; text-align: center; color: rgba(255,242,173,.42); font: .7rem "Trebuchet MS", "Segoe UI", sans-serif; letter-spacing: .08em; }
+.replay { position: absolute; right: 18px; bottom: 18px; z-index: 7; width: 34px; height: 34px; border: 1px solid rgba(255,210,83,.25); border-radius: 50%; background: rgba(17,9,2,.42); color: rgba(255,220,112,.7); opacity: 0; transition: opacity .5s; cursor: pointer; }
+.replay:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.touch-ripple { position: absolute; width: 9px; height: 9px; border: 1px solid #ffe675; border-radius: 50%; animation: ripple 1.1s ease-out forwards; }
+.touch-ripple::before, .touch-ripple::after { content: ""; position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #ffd34f; box-shadow: 0 0 8px #ffd34f; }
+.touch-ripple::before { left: 24px; top: -9px; animation: burst 1.1s ease-out forwards; }
+.touch-ripple::after { left: -17px; top: 18px; animation: burst 1.1s ease-out .1s forwards; }
+.is-started .opening { opacity: 0; transform: scale(.92); pointer-events: none; }
+.is-started .universe, .is-started .stars, .is-started .aurora { opacity: 1; }
+.is-started .universe { transform: scale(1); }
+.is-started .title-lockup { opacity: 1; transform: translateY(0); }
+.is-started .replay { opacity: 1; }
+
+@keyframes breathe { 50% { transform: scale(1.22); opacity: .2; } }
+@keyframes flower-breathe { 50% { transform: scale(1.035) rotate(1deg); } }
+@keyframes prompt-glow { 50% { color: #fff4b8; text-shadow: 0 0 15px #eeb321; } }
+@keyframes halo { 50% { transform: scale(1.14); opacity: .65; } }
+@keyframes planet-float { 50% { transform: translateY(-9px) rotate(3deg); } }
+@keyframes planet-shimmer { to { transform: translateX(25%) rotate(8deg); } }
+@keyframes hero-sway { 50% { transform: rotate(4deg) translateY(-7px); } }
+@keyframes spark-orbit { from { transform: rotate(0deg) translateX(45vw) rotate(0deg); } to { transform: rotate(360deg) translateX(45vw) rotate(-360deg); } }
+@keyframes wish-in { 0%, 100% { opacity: 0; transform: translateY(10px) scale(.96); } 14%, 78% { opacity: .82; transform: translateY(0) scale(1); } }
+@keyframes ripple { to { transform: scale(10); opacity: 0; } }
+@keyframes burst { to { transform: translate(var(--x, 20px), var(--y, -25px)); opacity: 0; } }
+
+@media (max-width: 520px) {
+  .title-lockup { top: max(6vh, 30px); }
+  .eyebrow { font-size: .57rem; letter-spacing: .22em; }
+  .orbit-stage { top: 53%; width: 112vw; }
+  .wish:nth-child(odd) { max-width: 124px; }
+  .footer-note { font-size: .62rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
