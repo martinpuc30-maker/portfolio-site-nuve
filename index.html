@@ -3,503 +3,871 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Gestión de préstamos de la biblioteca escolar.">
-  <title>Biblioteca escolar | Préstamos</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#090b2b">
+  <meta name="description" content="Una aventura animada para celebrar el Día de Hot Wheels entre autos, motos y flores azules y moradas.">
+  <title>Día de Hot Wheels — velocidad en flor</title>
   <style>
     :root {
-      --ink: #183b3f;
-      --muted: #587175;
-      --paper: #f7f3e9;
-      --surface: #fffdf7;
-      --line: #d6e2df;
-      --teal: #176d70;
-      --teal-dark: #0f5055;
-      --mint: #dff0e9;
-      --coral: #c6533d;
-      --coral-soft: #fbe6df;
-      --gold: #e6b85a;
-      --shadow: 0 18px 45px rgba(24, 59, 63, .10);
+      color-scheme: dark;
+      --night: #090b2b;
+      --night-soft: #11133c;
+      --blue: #4e9bff;
+      --blue-light: #a5d6ff;
+      --violet: #a98aff;
+      --violet-deep: #6849dc;
+      --orange: #ff773e;
+      --white: #f7f5ff;
+      --muted: #c3c4e0;
+      --line: rgba(205, 200, 255, .24);
+      --display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      --body: "Trebuchet MS", Arial, sans-serif;
     }
 
     * { box-sizing: border-box; }
     html { min-width: 320px; scroll-behavior: smooth; }
     body {
-      min-height: 100vh;
       margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: "DM Sans", sans-serif;
+      background: var(--night);
+      color: var(--white);
+      font-family: var(--body);
+      line-height: 1.55;
     }
-    button, input, select { font: inherit; }
+    button, a { font: inherit; }
     button { cursor: pointer; }
-    button:focus-visible, input:focus-visible, select:focus-visible {
-      outline: 3px solid rgba(230, 184, 90, .85);
-      outline-offset: 3px;
+    a { color: inherit; }
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid var(--blue-light);
+      outline-offset: 4px;
     }
     .skip-link {
       position: absolute;
-      top: 8px;
-      left: 8px;
-      z-index: 10;
+      z-index: 20;
+      top: 12px;
+      left: 12px;
       padding: 10px 14px;
-      border-radius: 7px;
-      background: var(--ink);
-      color: white;
-      transform: translateY(-150%);
+      transform: translateY(-160%);
+      background: var(--white);
+      color: var(--night);
+      font-weight: 700;
     }
     .skip-link:focus { transform: translateY(0); }
-    .shell { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
+    .shell { width: min(1240px, calc(100% - 64px)); margin: 0 auto; }
     .topbar {
-      border-bottom: 1px solid rgba(24, 59, 63, .12);
-      background: rgba(255, 253, 247, .9);
+      position: absolute;
+      z-index: 5;
+      inset: 0 0 auto;
+      border-bottom: 1px solid rgba(255,255,255,.12);
     }
     .topbar-inner {
       display: flex;
+      min-height: 78px;
       align-items: center;
       justify-content: space-between;
-      min-height: 82px;
       gap: 24px;
     }
-    .brand { display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--white);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
     .brand-mark {
       display: grid;
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       place-items: center;
-      border-radius: 11px 4px 11px 4px;
-      background: var(--teal);
-      color: #fff9e9;
-      font-family: Fraunces, serif;
-      font-size: 22px;
-      box-shadow: 5px 5px 0 var(--gold);
+      transform: rotate(-8deg);
+      border: 2px solid var(--orange);
+      border-radius: 50%;
+      color: var(--orange);
+      font-family: var(--display);
+      font-size: 21px;
+      line-height: 1;
     }
-    .brand strong { display: block; font-size: 15px; letter-spacing: -.02em; }
-    .brand span { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; }
-    .topbar-note { color: var(--muted); font-size: 13px; }
-
-    .hero { padding: 62px 0 42px; }
-    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: end; }
-    h1, h2, h3 { font-family: Fraunces, Georgia, serif; font-weight: 700; letter-spacing: -.04em; }
-    h1 { max-width: 680px; margin: 0; font-size: clamp(2.9rem, 7vw, 5.8rem); line-height: .92; }
-    .hero-copy { max-width: 590px; margin: 24px 0 0; color: var(--muted); font-size: 17px; line-height: 1.6; }
-    .hero-aside {
-      padding: 26px 28px;
-      border: 1px solid var(--line);
-      border-radius: 3px 22px 3px 22px;
-      background: var(--mint);
-    }
-    .hero-aside strong { display: block; margin-bottom: 8px; color: var(--teal-dark); font-size: 14px; }
-    .hero-aside p { margin: 0; color: var(--ink); font-size: 14px; line-height: 1.55; }
-
-    .workspace { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; padding-bottom: 76px; }
-    .panel { border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); }
-    .panel-head { display: flex; align-items: start; justify-content: space-between; gap: 16px; padding: 25px 27px 18px; }
-    .panel-head h2 { margin: 0; font-size: 26px; }
-    .panel-head p { margin: 7px 0 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
-    .panel-body { padding: 0 27px 27px; }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px 14px; }
-    .field { display: grid; gap: 7px; }
-    .field.full { grid-column: 1 / -1; }
-    label { color: var(--ink); font-size: 12px; font-weight: 700; }
-    input, select {
-      width: 100%;
-      min-height: 44px;
-      padding: 10px 12px;
-      border: 1px solid #b8cdca;
-      border-radius: 8px;
-      background: #fff;
-      color: var(--ink);
-    }
-    input::placeholder { color: #819494; }
-    .field-hint { color: var(--muted); font-size: 11px; }
-    .button {
-      min-height: 44px;
-      padding: 10px 16px;
-      border: 0;
-      border-radius: 8px;
-      background: var(--teal);
-      color: white;
-      font-size: 13px;
+    .topbar-note {
+      color: var(--blue-light);
+      font-size: 11px;
       font-weight: 700;
-      transition: background .2s ease, transform .2s ease;
+      letter-spacing: .14em;
+      text-transform: uppercase;
     }
-    .button:hover:not(:disabled) { background: var(--teal-dark); transform: translateY(-1px); }
-    .button.secondary { border: 1px solid var(--teal); background: transparent; color: var(--teal-dark); }
-    .button.secondary:hover:not(:disabled) { background: var(--mint); }
-    .button:disabled { cursor: not-allowed; opacity: .48; }
-    .form-actions { display: flex; align-items: center; gap: 12px; margin-top: 22px; }
-    .status {
-      display: none;
-      margin-top: 18px;
-      padding: 13px 15px;
-      border-radius: 8px;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-    .status.show { display: block; }
-    .status.success { background: var(--mint); color: var(--teal-dark); }
-    .status.error { background: var(--coral-soft); color: #8b3023; }
-    .eligibility {
-      display: none;
+
+    .hero {
+      position: relative;
+      display: grid;
+      min-height: min(820px, 100svh);
+      overflow: hidden;
       align-items: center;
-      gap: 12px;
-      margin-top: 20px;
-      padding: 14px 16px;
-      border-radius: 9px;
-      font-size: 14px;
+      isolation: isolate;
+      background:
+        radial-gradient(ellipse at 75% 47%, rgba(76, 68, 192, .33), transparent 42%),
+        linear-gradient(115deg, #090b2b 20%, #151445 72%, #211459);
+    }
+    .hero::before {
+      position: absolute;
+      z-index: -1;
+      inset: auto -5% -39% 25%;
+      height: 65%;
+      transform: rotate(-12deg);
+      border: 1px solid rgba(169, 138, 255, .35);
+      border-radius: 50%;
+      box-shadow: 0 0 0 18px rgba(169,138,255,.04), 0 0 0 44px rgba(78,155,255,.04);
+      content: "";
+    }
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background: linear-gradient(90deg, var(--night) 0%, rgba(9,11,43,.94) 32%, rgba(9,11,43,.18) 83%);
+      content: "";
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(300px, .94fr) minmax(400px, 1.06fr);
+      gap: 4vw;
+      align-items: center;
+      padding-top: 82px;
+      padding-bottom: 58px;
+    }
+    .hero-copy { position: relative; z-index: 2; max-width: 560px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 680px;
+      margin-bottom: 20px;
+      font-family: var(--display);
+      font-size: clamp(4.25rem, 8.7vw, 8rem);
+      font-weight: 400;
+      letter-spacing: -.035em;
+      line-height: .78;
+      text-transform: uppercase;
+    }
+    h1 span {
+      display: block;
+      padding-top: .09em;
+      color: var(--blue-light);
+      font-size: .65em;
+      letter-spacing: -.015em;
+    }
+    .hero-description {
+      max-width: 430px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .button {
+      display: inline-flex;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 19px;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .03em;
+      transition: transform .2s ease, background-color .2s ease, border-color .2s ease;
+    }
+    .button:hover:not(:disabled) { transform: translateY(-2px); }
+    .button:disabled { cursor: default; opacity: .56; }
+    .button-primary { background: var(--orange); color: #210d27; }
+    .button-primary:hover:not(:disabled) { background: #ff9a67; }
+    .button-secondary { border-color: rgba(205,200,255,.45); background: rgba(13,14,53,.42); }
+    .button-secondary:hover:not(:disabled) { border-color: var(--blue-light); background: rgba(68,81,177,.34); }
+    .button-icon { font-size: 17px; line-height: 1; }
+    .play-note { margin: 13px 0 0; color: #c2c4e8; font-size: 12px; }
+    .stage-status { min-height: 23px; margin: 12px 0 0; color: var(--blue-light); font-size: 12px; }
+    .stage-status:empty { display: none; }
+
+    .stage {
+      position: relative;
+      display: grid;
+      min-height: 480px;
+      place-items: center;
+      perspective: 900px;
+    }
+    .stage-track {
+      position: absolute;
+      inset: 4% -5% 0 -8%;
+      width: 113%;
+      height: 100%;
+      overflow: visible;
+    }
+    .track-shadow { fill: none; stroke: #05061c; stroke-width: 110; }
+    .track-edge { fill: none; stroke: #393482; stroke-width: 92; }
+    .track-road { fill: none; stroke: #171935; stroke-width: 78; }
+    .track-dash { fill: none; stroke: rgba(183,177,255,.6); stroke-dasharray: 3 14; stroke-linecap: round; stroke-width: 2; }
+    .car-photo {
+      position: relative;
+      z-index: 2;
+      width: min(84%, 520px);
+      max-height: 350px;
+      aspect-ratio: 1.27;
+      overflow: hidden;
+      transform: rotate(-5deg);
+      border: 1px solid rgba(198,193,255,.55);
+      box-shadow: 0 22px 72px rgba(3,3,20,.55), 9px 10px 0 rgba(94,65,201,.52);
+      background: #161832;
+    }
+    .car-photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity .35s ease, transform .6s cubic-bezier(.2,.8,.2,1);
+    }
+    .car-photo.is-changing img { opacity: .18; transform: scale(1.04); }
+    .photo-label {
+      position: absolute;
+      z-index: 3;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 32px 18px 14px;
+      background: linear-gradient(transparent, rgba(5,6,25,.94));
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .photo-love {
+      display: block;
+      margin-top: 5px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: 1.4;
+      text-transform: none;
+    }
+    .orbit-note {
+      position: absolute;
+      z-index: 3;
+      top: 14%;
+      right: 1%;
+      display: grid;
+      width: 82px;
+      height: 82px;
+      place-items: center;
+      transform: rotate(10deg);
+      border: 1px solid rgba(255,255,255,.65);
+      border-radius: 50%;
+      background: var(--violet-deep);
+      color: white;
+      font-family: var(--display);
+      font-size: 16px;
+      line-height: .95;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .flower {
+      position: absolute;
+      z-index: 3;
+      width: 76px;
+      height: 76px;
+      filter: drop-shadow(0 8px 12px rgba(2,3,20,.35));
+      pointer-events: none;
+    }
+    .flower-a { top: 10%; left: 2%; width: 92px; height: 92px; }
+    .flower-b { right: 8%; bottom: 2%; width: 68px; height: 68px; transform: rotate(14deg); }
+    .flower-c { bottom: 13%; left: 4%; width: 58px; height: 58px; transform: rotate(-12deg); }
+    .flower-petal-blue { fill: #5d9fff; }
+    .flower-petal-violet { fill: #b699ff; }
+    .flower-center { fill: #ffcf6b; }
+    .flower-stem { fill: none; stroke: #74bf9a; stroke-linecap: round; stroke-width: 4; }
+
+    .sequence {
+      position: relative;
+      overflow: hidden;
+      padding: 96px 0 105px;
+      background:
+        radial-gradient(ellipse at 90% 10%, rgba(81,89,198,.2), transparent 35%),
+        var(--night-soft);
+    }
+    .sequence::before {
+      position: absolute;
+      top: -100px;
+      left: 54%;
+      width: 630px;
+      height: 270px;
+      transform: rotate(-16deg);
+      border: 1px solid rgba(125,112,255,.22);
+      border-radius: 50%;
+      box-shadow: 0 0 0 23px rgba(125,112,255,.035), 0 0 0 54px rgba(78,155,255,.035);
+      content: "";
+    }
+    .section-head {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 32px;
+      margin-bottom: 37px;
+    }
+    .section-head h2 {
+      max-width: 700px;
+      margin-bottom: 0;
+      font-family: var(--display);
+      font-size: clamp(2.8rem, 6vw, 5.8rem);
+      font-weight: 400;
+      letter-spacing: -.025em;
+      line-height: .9;
+      text-transform: uppercase;
+    }
+    .section-head p { max-width: 290px; margin-bottom: 4px; color: var(--muted); font-size: 14px; line-height: 1.65; }
+    .reel {
+      position: relative;
+      display: grid;
+      min-height: 410px;
+      grid-template-columns: minmax(0, 1.2fr) minmax(260px, .8fr);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #0c0e32;
+    }
+    .reel-visual {
+      position: relative;
+      min-height: 410px;
+      overflow: hidden;
+      background:
+        linear-gradient(130deg, rgba(12,14,50,.05), rgba(12,14,50,.55)),
+        #1b194c;
+    }
+    .reel-visual::before {
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(9,11,43,.62), transparent 60%);
+      content: "";
+      pointer-events: none;
+    }
+    .reel-visual img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 410px;
+      object-fit: cover;
+      transition: transform .75s cubic-bezier(.2,.8,.2,1), opacity .4s ease;
+    }
+    .reel-visual.is-changing img { opacity: .2; transform: scale(1.06); }
+    .reel-caption {
+      position: absolute;
+      z-index: 2;
+      right: 24px;
+      bottom: 20px;
+      left: 24px;
+      margin: 0;
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .reel-copy {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(25px, 4vw, 54px);
+      background: linear-gradient(145deg, #171746, #101133);
+    }
+    .scene-count {
+      margin-bottom: 20px;
+      color: var(--blue-light);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .reel-copy h3 {
+      margin-bottom: 13px;
+      font-family: var(--display);
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      font-weight: 400;
+      letter-spacing: -.025em;
+      line-height: .93;
+      text-transform: uppercase;
+    }
+    .reel-copy p { max-width: 350px; margin-bottom: 27px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .sequence-track {
+      height: 3px;
+      overflow: hidden;
+      background: rgba(255,255,255,.16);
+    }
+    .sequence-progress {
+      width: 100%;
+      height: 100%;
+      transform: scaleX(0);
+      transform-origin: left;
+      background: linear-gradient(90deg, var(--blue), var(--violet));
+    }
+    .is-playing .sequence-progress { transition: transform 5.5s linear; transform: scaleX(1); }
+    .scene-markers { display: flex; gap: 8px; margin-top: 12px; }
+    .scene-marker {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.25);
+    }
+    .scene-marker[aria-current="step"] { background: var(--blue-light); box-shadow: 0 0 0 3px rgba(78,155,255,.18); }
+
+    .garden {
+      position: relative;
+      padding: 105px 0 118px;
+      overflow: hidden;
+      background: #e8e4ff;
+      color: #141336;
+    }
+    .garden::after {
+      position: absolute;
+      right: -130px;
+      bottom: -260px;
+      width: 480px;
+      height: 480px;
+      border: 1px solid rgba(82,74,171,.17);
+      border-radius: 50%;
+      box-shadow: 0 0 0 24px rgba(82,74,171,.035), 0 0 0 58px rgba(82,74,171,.03);
+      content: "";
+      pointer-events: none;
+    }
+    .garden .section-head { align-items: start; }
+    .garden .section-head h2 { max-width: 650px; color: #161338; }
+    .garden .section-head p { color: #41426d; }
+    .gallery {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.12fr .88fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+    .gallery-photo {
+      position: relative;
+      min-height: 360px;
+      overflow: hidden;
+      background: #252552;
+    }
+    .gallery-photo:first-child { min-height: 510px; }
+    .gallery-photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      object-fit: cover;
+      transition: transform .65s cubic-bezier(.2,.8,.2,1);
+    }
+    .gallery-photo:hover img { transform: scale(1.035); }
+    .gallery-caption {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 44px 22px 19px;
+      background: linear-gradient(transparent, rgba(8,9,38,.93));
+      color: white;
+    }
+    .gallery-caption strong { display: block; font-size: 14px; }
+    .gallery-caption span { display: block; margin-top: 4px; color: #d4d1f4; font-size: 11px; }
+    .gallery-caption .love-note {
+      margin-top: 8px;
+      color: #fff;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 700;
       line-height: 1.4;
     }
-    .eligibility.show { display: flex; }
-    .eligibility.allowed { background: var(--mint); color: var(--teal-dark); }
-    .eligibility.denied { background: var(--coral-soft); color: #8b3023; }
-    .eligibility-icon { font-size: 20px; }
-
-    .loan-panel { position: sticky; top: 20px; height: fit-content; }
-    .loan-panel .panel-head { padding-bottom: 13px; }
-    .loan-panel .panel-body { padding-bottom: 23px; }
-    .loan-summary { display: grid; gap: 12px; margin-top: 2px; }
-    .summary-row { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); font-size: 13px; }
-    .summary-row span { color: var(--muted); }
-    .summary-row strong { text-align: right; }
-    .loan-note { margin: 17px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
-    .loan-panel .button { width: 100%; margin-top: 19px; }
-
-    .catalog { grid-column: 1 / -1; }
-    .catalog-tools { display: flex; align-items: center; gap: 12px; }
-    .search { min-width: 230px; }
-    .book-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .book {
-      display: flex;
-      min-height: 184px;
-      flex-direction: column;
-      padding: 19px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: #fff;
+    .flower-decoration {
+      position: absolute;
+      z-index: 2;
+      width: 100px;
+      height: 100px;
+      pointer-events: none;
     }
-    .book.is-selected { border-color: var(--teal); box-shadow: 0 0 0 3px var(--mint); }
-    .book-meta { display: flex; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
-    .book h3 { margin: 16px 0 5px; font-size: 21px; line-height: 1.02; }
-    .book-author { margin: 0; color: var(--muted); font-size: 12px; }
-    .book-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 16px; }
-    .available { color: var(--teal-dark); font-size: 11px; font-weight: 700; }
-    .available::before { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: #58a579; content: ""; }
-    .book .button { min-height: 36px; padding: 7px 11px; font-size: 11px; }
-    .empty { display: none; padding: 28px 10px 10px; color: var(--muted); font-size: 14px; text-align: center; }
-    .empty.show { display: block; }
-    .records { grid-column: 1 / -1; }
-    .record-list { display: grid; gap: 10px; }
-    .record { display: grid; grid-template-columns: 1.2fr 1fr 1fr auto; gap: 16px; align-items: center; padding: 14px 16px; border: 1px solid var(--line); border-radius: 9px; font-size: 12px; }
-    .record small { display: block; margin-bottom: 4px; color: var(--muted); font-size: 10px; }
-    .record strong { font-size: 13px; }
-    .record .status-chip { justify-self: end; padding: 5px 8px; border-radius: 999px; background: var(--mint); color: var(--teal-dark); font-size: 10px; font-weight: 700; }
-    footer { padding: 28px 0 38px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .garden-flower { top: 12px; right: 5%; }
+    .gallery-stack { display: grid; grid-template-rows: 1fr 1fr; gap: 20px; }
+    .gallery-stack .gallery-photo { min-height: 245px; }
+    .gallery-stack .gallery-photo img { min-height: 245px; }
+    .garden-note {
+      position: relative;
+      z-index: 1;
+      max-width: 650px;
+      margin: 22px 0 0;
+      color: #41426d;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .garden-note strong { color: #191742; }
+    footer { padding: 30px 0 34px; background: var(--night); }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      align-items: start;
+    }
+    footer p { max-width: 660px; margin-bottom: 0; color: #b9bbd7; font-size: 11px; line-height: 1.8; }
+    footer a { color: var(--blue-light); }
+    .footer-signoff { flex: 0 0 auto; color: #d6d1ff; font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
 
     @media (max-width: 900px) {
-      .hero-grid, .workspace { grid-template-columns: 1fr; }
-      .loan-panel { position: static; }
-      .book-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-inner { grid-template-columns: minmax(280px, .9fr) minmax(320px, 1.1fr); gap: 12px; }
+      .stage { min-height: 400px; }
+      .section-head { align-items: start; flex-direction: column; gap: 14px; }
+      .section-head p { max-width: 460px; }
+      .reel { grid-template-columns: 1fr 1fr; }
+      .gallery-photo:first-child { min-height: 430px; }
     }
-    @media (max-width: 600px) {
-      .shell { width: min(100% - 28px, 1160px); }
-      .topbar-inner { min-height: 72px; }
-      .topbar-note { display: none; }
-      .hero { padding: 44px 0 30px; }
-      h1 { font-size: clamp(2.7rem, 15vw, 4.3rem); }
-      .hero-copy { font-size: 15px; }
-      .panel-head { padding: 21px 18px 15px; }
-      .panel-body { padding: 0 18px 20px; }
-      .form-grid, .book-grid { grid-template-columns: 1fr; }
-      .field.full { grid-column: auto; }
-      .catalog-tools { align-items: stretch; flex-direction: column; }
-      .search { min-width: 0; }
-      .record { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .record .status-chip { justify-self: start; }
+    @media (max-width: 680px) {
+      .shell { width: min(100% - 36px, 1240px); }
+      .topbar-inner { min-height: 65px; }
+      .topbar-note { max-width: 155px; font-size: 9px; text-align: right; }
+      .hero { min-height: auto; }
+      .hero::after { background: linear-gradient(180deg, rgba(9,11,43,.08), rgba(9,11,43,.28) 35%, var(--night) 76%); }
+      .hero-inner { grid-template-columns: 1fr; gap: 0; padding-top: 110px; padding-bottom: 37px; }
+      .hero-copy { order: 2; }
+      h1 { font-size: clamp(4rem, 18vw, 6.8rem); }
+      .hero-description { max-width: 450px; font-size: 15px; }
+      .stage { min-height: 300px; margin: -12px -6px 5px; }
+      .stage-track { inset: 0 -10% -4% -6%; width: 116%; }
+      .car-photo { width: min(75%, 400px); max-height: 260px; aspect-ratio: 1.28; }
+      .flower-a { top: 0; left: 3%; width: 66px; height: 66px; }
+      .flower-b { right: 4%; bottom: 2%; width: 54px; height: 54px; }
+      .flower-c { bottom: 5%; left: 7%; width: 44px; height: 44px; }
+      .orbit-note { top: 4%; right: 5%; width: 66px; height: 66px; font-size: 13px; }
+      .actions { align-items: stretch; }
+      .button { min-height: 48px; }
+      .sequence { padding: 73px 0 80px; }
+      .section-head { margin-bottom: 25px; }
+      .reel { grid-template-columns: 1fr; }
+      .reel-visual, .reel-visual img { min-height: 265px; max-height: 330px; }
+      .reel-copy { min-height: 290px; padding: 26px; }
+      .garden { padding: 76px 0 84px; }
+      .garden-flower { top: -5px; right: -5px; width: 70px; height: 70px; }
+      .gallery { grid-template-columns: 1fr; gap: 14px; }
+      .gallery-photo:first-child { min-height: 340px; }
+      .gallery-stack { grid-template-columns: 1fr; grid-template-rows: none; gap: 14px; }
+      .gallery-stack .gallery-photo, .gallery-stack .gallery-photo img { min-height: 260px; }
+      .gallery-caption { padding: 38px 12px 12px; }
+      .gallery-caption strong { font-size: 12px; }
+      .gallery-caption span { font-size: 10px; }
+      .gallery-caption .love-note { margin-top: 6px; font-size: 11px; }
+      .footer-inner { flex-direction: column; gap: 16px; }
+    }
+    @media (max-width: 390px) {
+      .shell { width: calc(100% - 28px); }
+      .topbar-note { max-width: 125px; }
+      .stage { min-height: 255px; }
+      .button { width: 100%; }
+      .gallery-stack { grid-template-columns: 1fr; }
+      .gallery-stack .gallery-photo, .gallery-stack .gallery-photo img { min-height: 250px; }
     }
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
 <body>
   <!--
-    THESIS: La biblioteca se siente como una mesa de trabajo clara, no como un formulario aislado.
-    OWN-WORLD: Verde tinta, papel marfil y acentos de archivo; bordes precisos y formas de cuaderno.
-    STORY: La persona registra al estudiante, confirma su edad, elige un ejemplar y deja una devolución verificable.
-    FIRST VIEWPORT: Encabezado breve, regla de acceso y registro visible; el catálogo continúa debajo.
-    FORM: Operate, composición de mesa de trabajo con validación inmediata y estados explícitos.
+    THESIS: Una pista de juguete cruza un jardín nocturno; se celebra la velocidad sin convertir la página en un reproductor de video falso.
+    OWN-WORLD: Azul carrera, violeta eléctrico y naranja bandera sobre tinta noche; tipografía de cartel y flores dibujadas como calcomanías.
+    STORY: El visitante descubre autos Hot Wheels y una moto de juguete, inicia una secuencia breve y puede volver a empezar cuando quiera.
+    FIRST VIEWPORT: Título enorme a la izquierda, fotografía de auto sobre una pista ilustrada a la derecha y controles debajo del mensaje.
+    FORM: Experiencia cinematográfica de tres escenas con cambio de fotografía y avance temporizado; la galería termina como jardín de colección.
   -->
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
   <header class="topbar">
     <div class="shell topbar-inner">
-      <a class="brand" href="#contenido" aria-label="Biblioteca escolar, inicio">
-        <span class="brand-mark" aria-hidden="true">B</span>
-        <span><strong>Biblioteca escolar</strong><span>Préstamos y lecturas</span></span>
+      <a class="brand" href="#inicio" aria-label="Día de Hot Wheels, inicio">
+        <span class="brand-mark" aria-hidden="true">H</span>
+        <span>Día de Hot Wheels</span>
       </a>
-      <span class="topbar-note">Un espacio para encontrar tu próxima historia</span>
+      <span class="topbar-note">Una aventura a toda velocidad</span>
     </div>
   </header>
 
-  <main id="contenido" class="shell">
-    <section class="hero" aria-labelledby="page-title">
-      <div class="hero-grid">
-        <div>
-          <h1 id="page-title">Leer es entrar.<br>Empecemos por aquí.</h1>
-          <p class="hero-copy">Registra al estudiante, revisa su acceso y reserva un libro disponible. La devolución se calcula por ti para que cada préstamo quede claro.</p>
+  <main id="contenido">
+    <section class="hero" id="inicio" aria-labelledby="page-title">
+      <div class="shell hero-inner">
+        <div class="hero-copy">
+          <h1 id="page-title">Día de<span>Hot Wheels</span></h1>
+          <p class="hero-description">Enciende la imaginación: autos diminutos, una moto en el jardín y flores azules y moradas acompañan esta aventura de velocidad.</p>
+          <div class="actions" aria-label="Controles de la experiencia">
+            <button class="button button-primary" id="startButton" type="button">
+              <span class="button-icon" aria-hidden="true">▶</span>
+              <span>Iniciar la experiencia</span>
+            </button>
+            <button class="button button-secondary" id="restartButton" type="button">
+              <span class="button-icon" aria-hidden="true">↺</span>
+              <span>Volver a empezar</span>
+            </button>
+          </div>
+          <p class="play-note">Una secuencia animada breve, con tres escenas. Sin sonido.</p>
+          <p class="stage-status" id="stageStatus" role="status" aria-live="polite"></p>
         </div>
-        <aside class="hero-aside">
-          <strong>Regla de acceso</strong>
-          <p>Puede solicitar un préstamo cualquier estudiante de hasta 20 años. La edad se calcula con la fecha de hoy, no solo con el año de nacimiento.</p>
-        </aside>
+
+        <div class="stage" aria-label="Auto de colección rodeado por una pista y flores">
+          <svg class="stage-track" viewBox="0 0 700 520" aria-hidden="true">
+            <path class="track-shadow" d="M54 361C95 189 173 84 305 113c128 28 91 213 206 230 76 11 115-56 134-112"/>
+            <path class="track-edge" d="M54 361C95 189 173 84 305 113c128 28 91 213 206 230 76 11 115-56 134-112"/>
+            <path class="track-road" d="M54 361C95 189 173 84 305 113c128 28 91 213 206 230 76 11 115-56 134-112"/>
+            <path class="track-dash" d="M54 361C95 189 173 84 305 113c128 28 91 213 206 230 76 11 115-56 134-112"/>
+          </svg>
+          <figure class="car-photo" id="heroPhoto">
+            <img id="heroImage" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/HOT_WHEELS_MAINLINE_2013_-_CHEVY_CAMARO.jpg/1280px-HOT_WHEELS_MAINLINE_2013_-_CHEVY_CAMARO.jpg" alt="Miniatura Hot Wheels de un Chevy Camaro rojo" width="1280" height="960" fetchpriority="high">
+            <figcaption class="photo-label">
+              <span id="heroCaption">Un Camaro listo para la pista</span>
+              <span class="photo-love" id="heroLove">Mi campeón, te amo más que a todas las carreras ❤️🏁</span>
+            </figcaption>
+          </figure>
+          <span class="orbit-note" aria-hidden="true">Colección<br>en flor</span>
+          <svg class="flower flower-a" viewBox="0 0 100 100" aria-hidden="true">
+            <path class="flower-stem" d="M51 52c-2 21 13 23 17 38M54 72c-10-9-15-5-19-2"/>
+            <g class="flower-petal-blue">
+              <ellipse cx="50" cy="22" rx="10" ry="18"/><ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(45 50 50)"/>
+              <ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(90 50 50)"/><ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(135 50 50)"/>
+            </g><circle class="flower-center" cx="50" cy="50" r="10"/>
+          </svg>
+          <svg class="flower flower-b" viewBox="0 0 100 100" aria-hidden="true">
+            <path class="flower-stem" d="M49 56c-1 19-10 24-15 34m14-24c10-9 15-6 20-3"/>
+            <g class="flower-petal-violet">
+              <ellipse cx="50" cy="22" rx="10" ry="18"/><ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(45 50 50)"/>
+              <ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(90 50 50)"/><ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(135 50 50)"/>
+            </g><circle class="flower-center" cx="50" cy="50" r="10"/>
+          </svg>
+          <svg class="flower flower-c" viewBox="0 0 100 100" aria-hidden="true">
+            <path class="flower-stem" d="M49 57c-2 16 6 23 11 31"/>
+            <g class="flower-petal-blue">
+              <ellipse cx="50" cy="22" rx="10" ry="18"/><ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(45 50 50)"/>
+              <ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(90 50 50)"/><ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(135 50 50)"/>
+            </g><circle class="flower-center" cx="50" cy="50" r="10"/>
+          </svg>
+        </div>
       </div>
     </section>
 
-    <section class="workspace" aria-label="Gestión de préstamos">
-      <section class="panel" aria-labelledby="student-title">
-        <div class="panel-head">
-          <div>
-            <h2 id="student-title">1. Identifica al lector</h2>
-            <p>Necesitamos estos datos para verificar si puede llevarse un libro.</p>
-          </div>
+    <section class="sequence" id="secuencia" aria-labelledby="sequence-title">
+      <div class="shell">
+        <div class="section-head">
+          <h2 id="sequence-title">La pista<br>cobra vida</h2>
+          <p>Tres postales animadas: arranca cuando quieras y repite el recorrido con un solo toque.</p>
         </div>
-        <div class="panel-body">
-          <form id="studentForm" novalidate>
-            <div class="form-grid">
-              <div class="field full">
-                <label for="studentName">Nombre completo</label>
-                <input id="studentName" name="studentName" type="text" autocomplete="name" placeholder="Ej. Ana Martínez" required>
-              </div>
-              <div class="field">
-                <label for="studentId">Identificación</label>
-                <input id="studentId" name="studentId" type="text" autocomplete="off" placeholder="Ej. EST-2048" required>
-              </div>
-              <div class="field">
-                <label for="studentContact">Contacto</label>
-                <input id="studentContact" name="studentContact" type="text" autocomplete="email" placeholder="Correo o teléfono" required>
-              </div>
-              <div class="field full">
-                <label for="birthDate">Fecha de nacimiento</label>
-                <input id="birthDate" name="birthDate" type="date" required>
-                <span class="field-hint">La edad se comprobará al guardar el registro.</span>
-              </div>
+        <div class="reel" id="reel">
+          <div class="reel-visual" id="reelVisual">
+            <img id="sceneImage" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/HOT_WHEELS_MAINLINE_2013_-_CHEVY_CAMARO.jpg/1280px-HOT_WHEELS_MAINLINE_2013_-_CHEVY_CAMARO.jpg" alt="Miniatura Hot Wheels de un Chevy Camaro rojo" width="1280" height="960" loading="lazy" decoding="async">
+            <p class="reel-caption" id="sceneCaption">Mi amor, te amo más que a todas las carreras ❤️🏁</p>
+          </div>
+          <div class="reel-copy" aria-live="polite" aria-atomic="true">
+            <p class="scene-count" id="sceneCount">Escena 1 de 3 · La salida</p>
+            <h3 id="sceneTitle">Pisa el acelerador</h3>
+            <p id="sceneDescription">Una miniatura Hot Wheels toma la curva. La aventura comienza cuando presionas iniciar.</p>
+            <div class="sequence-track" role="progressbar" aria-label="Progreso de la escena" aria-valuemin="0" aria-valuemax="3" aria-valuenow="1">
+              <div class="sequence-progress" id="sequenceProgress"></div>
             </div>
-            <div class="form-actions">
-              <button class="button" type="submit">Verificar estudiante</button>
-              <button class="button secondary" id="clearStudent" type="button">Limpiar</button>
+            <div class="scene-markers" aria-hidden="true">
+              <span class="scene-marker" data-marker="0" aria-current="step"></span>
+              <span class="scene-marker" data-marker="1"></span>
+              <span class="scene-marker" data-marker="2"></span>
             </div>
-            <div id="studentStatus" class="status" role="status" aria-live="polite"></div>
-            <div id="eligibility" class="eligibility" role="status" aria-live="polite"></div>
-          </form>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <aside class="panel loan-panel" aria-labelledby="loan-title">
-        <div class="panel-head">
-          <div>
-            <h2 id="loan-title">2. Completa el préstamo</h2>
-            <p>Solo se habilita cuando el estudiante es apto y hay un libro elegido.</p>
+    <section class="garden" id="coleccion" aria-labelledby="garden-title">
+      <svg class="flower-decoration garden-flower" viewBox="0 0 100 100" aria-hidden="true">
+        <path class="flower-stem" d="M51 54c-2 18 13 25 18 34m-18-24c-12-7-17-4-21 2"/>
+        <g class="flower-petal-violet">
+          <ellipse cx="50" cy="22" rx="10" ry="18"/><ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(45 50 50)"/>
+          <ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(90 50 50)"/><ellipse cx="50" cy="22" rx="10" ry="18" transform="rotate(135 50 50)"/>
+        </g><circle class="flower-center" cx="50" cy="50" r="10"/>
+      </svg>
+      <div class="shell">
+        <div class="section-head">
+          <h2 id="garden-title">Pequeños autos.<br>Gran jardín.</h2>
+          <p>Miniaturas de colección entre tonos azules, flores violetas y una moto de juguete.</p>
+        </div>
+        <div class="gallery">
+          <figure class="gallery-photo">
+            <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Hot_Wheels_Modellauto.jpg/1280px-Hot_Wheels_Modellauto.jpg" alt="Auto miniatura Hot Wheels fotografiado de cerca" width="1280" height="770" loading="lazy" decoding="async">
+            <figcaption class="gallery-caption">
+              <strong>Una miniatura lista para rodar</strong>
+              <span>Hot Wheels · auto de colección</span>
+              <em class="love-note">Mi campeón, mi corazón siempre corre hacia ti ❤️🏎️</em>
+            </figcaption>
+          </figure>
+          <div class="gallery-stack">
+            <figure class="gallery-photo">
+              <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Antique_toy_cars_and_motorcycle_%2826462824164%29.jpg/1280px-Antique_toy_cars_and_motorcycle_%2826462824164%29.jpg" alt="Autos y motocicleta de juguete en una colección" width="1280" height="853" loading="lazy" decoding="async">
+              <figcaption class="gallery-caption">
+                <strong>Una moto de juguete</strong>
+                <span>Compañera de colección; no es un modelo Hot Wheels</span>
+                <em class="love-note">A tu lado, amor mío, cualquier camino es perfecto 💙💜❤️</em>
+              </figcaption>
+            </figure>
+            <figure class="gallery-photo">
+              <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/HOT_WHEELS_MAINLINE_2013_-_CHEVY_CAMARO.jpg/1280px-HOT_WHEELS_MAINLINE_2013_-_CHEVY_CAMARO.jpg" alt="Auto de juguete Hot Wheels, un Chevy Camaro rojo" width="1280" height="960" loading="lazy" decoding="async">
+              <figcaption class="gallery-caption">
+                <strong>Rojo en la recta final</strong>
+                <span>Hot Wheels · Chevy Camaro</span>
+                <em class="love-note">Eres el hombre que acelera mi corazón. Te amo ❤️‍🔥</em>
+              </figcaption>
+            </figure>
           </div>
         </div>
-        <div class="panel-body">
-          <div class="loan-summary">
-            <div class="summary-row"><span>Estudiante</span><strong id="summaryStudent">Pendiente</strong></div>
-            <div class="summary-row"><span>Libro</span><strong id="summaryBook">Pendiente</strong></div>
-            <div class="summary-row"><span>Devolver el</span><strong id="summaryDate">—</strong></div>
-          </div>
-          <label for="loanDays" style="display:block; margin-top:20px;">¿Cuántos días?</label>
-          <select id="loanDays" style="margin-top:7px;">
-            <option value="7">7 días</option>
-            <option value="14">14 días</option>
-            <option value="21">21 días</option>
-          </select>
-          <p class="loan-note">La fecha de devolución se cuenta desde hoy y se actualiza al cambiar la duración.</p>
-          <button class="button" id="loanButton" type="button" disabled>Registrar préstamo</button>
-          <div id="loanStatus" class="status" role="status" aria-live="polite"></div>
-        </div>
-      </aside>
-
-      <section class="panel catalog" aria-labelledby="catalog-title">
-        <div class="panel-head">
-          <div>
-            <h2 id="catalog-title">3. Elige un libro</h2>
-            <p id="catalogCount">Libros disponibles para préstamo</p>
-          </div>
-          <div class="catalog-tools">
-            <label class="sr-only" for="bookSearch">Buscar en el catálogo</label>
-            <input class="search" id="bookSearch" type="search" placeholder="Buscar título o autor" aria-label="Buscar título o autor">
-          </div>
-        </div>
-        <div class="panel-body">
-          <div id="bookGrid" class="book-grid"></div>
-          <div id="catalogEmpty" class="empty">No encontramos libros con esa búsqueda. Prueba con otro título o autor.</div>
-        </div>
-      </section>
-
-      <section class="panel records" aria-labelledby="records-title">
-        <div class="panel-head">
-          <div>
-            <h2 id="records-title">Préstamos registrados</h2>
-            <p>Se conservan en este navegador durante tu sesión de trabajo.</p>
-          </div>
-        </div>
-        <div class="panel-body">
-          <div id="recordList" class="record-list"></div>
-          <div id="recordsEmpty" class="empty show">Todavía no hay préstamos registrados.</div>
-        </div>
-      </section>
+        <p class="garden-note"><strong>Un jardín dibujado para la ocasión:</strong> las flores azules y moradas son ilustraciones originales integradas en esta página.</p>
+      </div>
     </section>
   </main>
-  <footer><div class="shell">Biblioteca escolar · Un registro simple para cuidar cada libro.</div></footer>
+
+  <footer>
+    <div class="shell footer-inner">
+      <p>Fotografías: “HOT WHEELS MAINLINE 2013 - CHEVY CAMARO”, CC0 (<a href="https://commons.wikimedia.org/wiki/File:HOT_WHEELS_MAINLINE_2013_-_CHEVY_CAMARO.jpg" target="_blank" rel="noreferrer">Wikimedia Commons</a>); “Hot Wheels Modellauto”, Stefan-Xp, CC BY-SA 3.0 (<a href="https://commons.wikimedia.org/wiki/File:Hot_Wheels_Modellauto.jpg" target="_blank" rel="noreferrer">Wikimedia Commons</a>); “Antique toy cars and motorcycle”, Thomas Quine, CC BY 2.0 (<a href="https://commons.wikimedia.org/wiki/File:Antique_toy_cars_and_motorcycle_(26462824164).jpg" target="_blank" rel="noreferrer">Wikimedia Commons</a>).</p>
+      <span class="footer-signoff">Velocidad en flor</span>
+    </div>
+  </footer>
 
   <script>
-    const books = [
-      { id: "quijote", title: "Don Quijote de la Mancha", author: "Miguel de Cervantes", category: "Clásico" },
-      { id: "momo", title: "Momo", author: "Michael Ende", category: "Fantasía" },
-      { id: "principito", title: "El principito", author: "Antoine de Saint-Exupéry", category: "Novela" },
-      { id: "frank", title: "El diario de Ana Frank", author: "Ana Frank", category: "Memoria" },
-      { id: "poesia", title: "Veinte poemas de amor", author: "Pablo Neruda", category: "Poesía" },
-      { id: "maravillas", title: "Alicia en el país de las maravillas", author: "Lewis Carroll", category: "Aventura" }
+    const scenes = [
+      {
+        title: "Pisa el acelerador",
+        description: "Una miniatura Hot Wheels toma la curva. La aventura comienza cuando presionas iniciar.",
+        image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/HOT_WHEELS_MAINLINE_2013_-_CHEVY_CAMARO.jpg/1280px-HOT_WHEELS_MAINLINE_2013_-_CHEVY_CAMARO.jpg",
+        alt: "Miniatura Hot Wheels de un Chevy Camaro rojo",
+        caption: "Mi amor, te amo más que a todas las carreras ❤️🏁",
+        photoCaption: "Un Camaro listo para la pista",
+        loveCaption: "Mi campeón, te amo más que a todas las carreras ❤️🏁"
+      },
+      {
+        title: "Una curva violeta",
+        description: "Entre flores azules aparece una moto de juguete: otra forma de imaginar el camino.",
+        image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Antique_toy_cars_and_motorcycle_%2826462824164%29.jpg/1280px-Antique_toy_cars_and_motorcycle_%2826462824164%29.jpg",
+        alt: "Autos y motocicleta de juguete en una colección",
+        caption: "A tu lado, amor mío, cualquier camino es perfecto 💙💜❤️",
+        photoCaption: "La moto se suma al recorrido",
+        loveCaption: "A tu lado, amor mío, cualquier camino es perfecto 💙💜❤️"
+      },
+      {
+        title: "La meta florece",
+        description: "El último tramo se llena de color. Puedes volver a empezar para recorrerlo otra vez.",
+        image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Hot_Wheels_Modellauto.jpg/1280px-Hot_Wheels_Modellauto.jpg",
+        alt: "Auto miniatura Hot Wheels fotografiado de cerca",
+        caption: "Eres el hombre que acelera mi corazón. Te amo ❤️‍🔥",
+        photoCaption: "La colección llega a la meta",
+        loveCaption: "Mi rey, mi corazón siempre corre hacia ti ❤️🏎️"
+      }
     ];
-    const state = {
-      student: null,
-      selectedBookId: null,
-      loans: JSON.parse(localStorage.getItem("biblioteca-loans") || "[]"),
-      unavailable: JSON.parse(localStorage.getItem("biblioteca-unavailable") || "[]")
-    };
-    const $ = (selector) => document.querySelector(selector);
-    const today = new Date();
-    $("#birthDate").max = today.toISOString().slice(0, 10);
+    const sceneDuration = 5500;
+    const startButton = document.querySelector("#startButton");
+    const restartButton = document.querySelector("#restartButton");
+    const stageStatus = document.querySelector("#stageStatus");
+    const reel = document.querySelector("#reel");
+    const reelVisual = document.querySelector("#reelVisual");
+    const sceneImage = document.querySelector("#sceneImage");
+    const sceneTitle = document.querySelector("#sceneTitle");
+    const sceneDescription = document.querySelector("#sceneDescription");
+    const sceneCount = document.querySelector("#sceneCount");
+    const sceneCaption = document.querySelector("#sceneCaption");
+    const progress = document.querySelector("#sequenceProgress");
+    const progressBar = document.querySelector(".sequence-track");
+    const heroPhoto = document.querySelector("#heroPhoto");
+    const heroImage = document.querySelector("#heroImage");
+    const heroCaption = document.querySelector("#heroCaption");
+    const heroLove = document.querySelector("#heroLove");
+    const markers = [...document.querySelectorAll("[data-marker]")];
+    let activeScene = 0;
+    let timerId;
+    let running = false;
 
-    function calculateAge(dateValue) {
-      const birth = new Date(`${dateValue}T00:00:00`);
-      let age = today.getFullYear() - birth.getFullYear();
-      const birthdayPassed = today.getMonth() > birth.getMonth()
-        || (today.getMonth() === birth.getMonth() && today.getDate() >= birth.getDate());
-      if (!birthdayPassed) age -= 1;
-      return age;
-    }
-    function formatDate(date) {
-      return new Intl.DateTimeFormat("es-ES", { day: "numeric", month: "long", year: "numeric" }).format(date);
-    }
-    function setStatus(element, message, type) {
-      element.textContent = message;
-      element.className = `status show ${type}`;
-    }
-    function updateLoanSummary() {
-      const book = books.find((item) => item.id === state.selectedBookId);
-      $("#summaryStudent").textContent = state.student ? state.student.name : "Pendiente";
-      $("#summaryBook").textContent = book ? book.title : "Pendiente";
-      const days = Number($("#loanDays").value);
-      const returnDate = new Date(today);
-      returnDate.setDate(returnDate.getDate() + days);
-      $("#summaryDate").textContent = book && state.student ? formatDate(returnDate) : "—";
-      $("#loanButton").disabled = !state.student?.eligible || !book;
-    }
-    function renderBooks() {
-      const query = $("#bookSearch").value.trim().toLocaleLowerCase();
-      const visible = books.filter((book) => {
-        const matches = `${book.title} ${book.author} ${book.category}`.toLocaleLowerCase().includes(query);
-        return matches && !state.unavailable.includes(book.id);
-      });
-      $("#catalogCount").textContent = `${visible.length} ${visible.length === 1 ? "libro disponible" : "libros disponibles"} para préstamo`;
-      $("#bookGrid").innerHTML = visible.map((book) => `
-        <article class="book ${state.selectedBookId === book.id ? "is-selected" : ""}">
-          <div class="book-meta"><span>${book.category}</span><span>Disponible</span></div>
-          <h3>${book.title}</h3>
-          <p class="book-author">${book.author}</p>
-          <div class="book-footer">
-            <span class="available">En estantería</span>
-            <button class="button ${state.selectedBookId === book.id ? "secondary" : ""}" type="button" data-book-id="${book.id}" aria-pressed="${state.selectedBookId === book.id}">
-              ${state.selectedBookId === book.id ? "Seleccionado" : "Elegir"}
-            </button>
-          </div>
-        </article>
-      `).join("");
-      $("#catalogEmpty").classList.toggle("show", visible.length === 0);
-      document.querySelectorAll("[data-book-id]").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.selectedBookId = button.dataset.bookId;
-          renderBooks();
-          updateLoanSummary();
+    function updateScene(index) {
+      activeScene = index;
+      const scene = scenes[index];
+      reelVisual.classList.add("is-changing");
+      heroPhoto.classList.add("is-changing");
+      window.setTimeout(() => {
+        sceneImage.src = scene.image;
+        sceneImage.alt = scene.alt;
+        sceneTitle.textContent = scene.title;
+        sceneDescription.textContent = scene.description;
+        sceneCount.textContent = `Escena ${index + 1} de ${scenes.length} · ${["La salida", "La curva", "La llegada"][index]}`;
+        sceneCaption.textContent = scene.caption;
+        heroImage.src = scene.image;
+        heroImage.alt = scene.alt;
+        heroCaption.textContent = scene.photoCaption;
+        heroLove.textContent = scene.loveCaption;
+        progressBar.setAttribute("aria-valuenow", String(index + 1));
+        markers.forEach((marker, markerIndex) => {
+          if (markerIndex === index) marker.setAttribute("aria-current", "step");
+          else marker.removeAttribute("aria-current");
         });
-      });
-    }
-    function renderLoans() {
-      $("#recordList").innerHTML = state.loans.map((loan) => `
-        <article class="record">
-          <div><small>Estudiante</small><strong>${loan.student}</strong></div>
-          <div><small>Libro</small><strong>${loan.book}</strong></div>
-          <div><small>Devolución</small><strong>${loan.returnDate}</strong></div>
-          <span class="status-chip">Activo</span>
-        </article>
-      `).join("");
-      $("#recordsEmpty").classList.toggle("show", state.loans.length === 0);
+        reelVisual.classList.remove("is-changing");
+        heroPhoto.classList.remove("is-changing");
+      }, 180);
     }
 
-    $("#studentForm").addEventListener("submit", (event) => {
-      event.preventDefault();
-      const form = event.currentTarget;
-      if (!form.reportValidity()) return;
-      const age = calculateAge($("#birthDate").value);
-      const eligible = age <= 20 && age >= 0;
-      state.student = {
-        name: $("#studentName").value.trim(),
-        id: $("#studentId").value.trim(),
-        contact: $("#studentContact").value.trim(),
-        age,
-        eligible
-      };
-      setStatus($("#studentStatus"), `Registro guardado para ${state.student.name}.`, "success");
-      const eligibility = $("#eligibility");
-      eligibility.className = `eligibility show ${eligible ? "allowed" : "denied"}`;
-      eligibility.innerHTML = `<span class="eligibility-icon" aria-hidden="true">${eligible ? "✓" : "!"}</span><span>${eligible ? `Tiene ${age} años: puede solicitar un préstamo.` : `Tiene ${age} años: no puede solicitar préstamos. El límite es 20 años.`}</span>`;
-      updateLoanSummary();
-    });
-    $("#clearStudent").addEventListener("click", () => {
-      $("#studentForm").reset();
-      $("#studentStatus").className = "status";
-      $("#eligibility").className = "eligibility";
-      state.student = null;
-      updateLoanSummary();
-    });
-    $("#bookSearch").addEventListener("input", renderBooks);
-    $("#loanDays").addEventListener("change", updateLoanSummary);
-    $("#loanButton").addEventListener("click", () => {
-      const book = books.find((item) => item.id === state.selectedBookId);
-      if (!state.student?.eligible || !book || state.unavailable.includes(book.id)) {
-        setStatus($("#loanStatus"), "No se puede registrar: verifica que el estudiante sea apto y el libro siga disponible.", "error");
+    function resetProgress() {
+      reel.classList.remove("is-playing");
+      progress.style.transition = "none";
+      progress.style.transform = "scaleX(0)";
+      void progress.offsetWidth;
+      progress.style.transition = "";
+    }
+
+    function finishSequence() {
+      running = false;
+      window.clearTimeout(timerId);
+      reel.classList.remove("is-playing");
+      startButton.disabled = false;
+      startButton.querySelector("span:last-child").textContent = "Reproducir de nuevo";
+      stageStatus.textContent = "La secuencia terminó. Puedes volver a empezar cuando quieras.";
+      progress.style.transform = "scaleX(0)";
+    }
+
+    function advanceSequence() {
+      if (!running) return;
+      if (activeScene === scenes.length - 1) {
+        finishSequence();
         return;
       }
-      const returnDate = new Date(today);
-      returnDate.setDate(returnDate.getDate() + Number($("#loanDays").value));
-      state.loans.unshift({ student: state.student.name, book: book.title, returnDate: formatDate(returnDate) });
-      state.unavailable.push(book.id);
-      localStorage.setItem("biblioteca-loans", JSON.stringify(state.loans));
-      localStorage.setItem("biblioteca-unavailable", JSON.stringify(state.unavailable));
-      setStatus($("#loanStatus"), `Préstamo registrado. ${book.title} debe devolverse el ${formatDate(returnDate)}.`, "success");
-      state.selectedBookId = null;
-      renderBooks();
-      renderLoans();
-      updateLoanSummary();
-    });
+      updateScene(activeScene + 1);
+      resetProgress();
+      requestAnimationFrame(() => {
+        if (running) reel.classList.add("is-playing");
+      });
+      timerId = window.setTimeout(advanceSequence, sceneDuration);
+    }
 
-    renderBooks();
-    renderLoans();
-    updateLoanSummary();
+    function playSequence(fromStart = false) {
+      window.clearTimeout(timerId);
+      running = true;
+      if (fromStart || activeScene === scenes.length - 1) updateScene(0);
+      resetProgress();
+      requestAnimationFrame(() => reel.classList.add("is-playing"));
+      startButton.disabled = true;
+      startButton.querySelector("span:last-child").textContent = "En marcha";
+      stageStatus.textContent = "La aventura está en marcha.";
+      timerId = window.setTimeout(advanceSequence, sceneDuration);
+      const scrollBehavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+      document.querySelector("#secuencia").scrollIntoView({ behavior: scrollBehavior, block: "center" });
+    }
+
+    startButton.addEventListener("click", () => {
+      playSequence(false);
+    });
+    restartButton.addEventListener("click", () => {
+      playSequence(true);
+    });
   </script>
 </body>
 </html>
